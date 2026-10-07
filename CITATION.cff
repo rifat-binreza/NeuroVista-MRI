@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "Please cite the published paper when referring to this research."
+title: "NeuroVista MRI — Rifat Bin Reza’s Research Showcase"
+type: software
+authors:
+  - name: "Rifat Bin Reza"
+preferred-citation:
+  type: conference-paper
+  title: "Deep Learning for Brain Tumor Detection: U-Net Segmentation and Xception Classification with LoRA-Driven Synthetic Data Augmentation"
+  authors:
+    - name: "Md. Muhaimenul Haque Prottoy"
+    - name: "Rifat Bin Reza"
+    - name: "Shahriar Islam"
+    - name: "Md. Mahfujul Haque"
+    - name: "Nafiz Ahmed Rhythm"
+  year: 2025
+  conference:
+    name: "2025 IEEE International Conference on Artificial Intelligence in Engineering and Technology (IICAIET)"
+  doi: "10.1109/IICAIET67254.2025.11264978"

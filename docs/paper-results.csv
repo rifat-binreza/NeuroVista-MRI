@@ -1,0 +1,10 @@
+metric,experiment,value,unit,source
+Dice,U-Net segmentation,88.43,percent,paper abstract
+IoU,U-Net segmentation,84.21,percent,paper abstract
+Accuracy,Glioma original,96.23,percent,paper abstract
+Accuracy,Glioma reduced,92.88,percent,paper abstract
+Accuracy,Glioma LoRA augmented,95.53,percent,paper abstract
+Accuracy improvement,Average vs reduced,2.55,percent as reported,paper abstract
+Precision improvement,Average vs reduced,2.38,percent as reported,paper abstract
+Recall improvement,Average vs reduced,2.37,percent as reported,paper abstract
+F1 improvement,Average vs reduced,2.51,percent as reported,paper abstract
