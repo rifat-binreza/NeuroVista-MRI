@@ -10,9 +10,31 @@
 
 Brain MRI analysis brings together two questions: **where is the predicted tumor region, and which class does the image resemble?** Our published work studies U-Net segmentation and Xception classification, with LoRA-driven synthetic augmentation to address class imbalance.
 
-NeuroVista MRI presents that research under my own portfolio identity while crediting the complete author team. The accompanying interface is designed around an MRI workspace, segmentation overlays, four-class scores and a publication explorer.
+NeuroVista MRI is my personal research portfolio for brain MRI analysis. The accompanying interface is designed around an MRI workspace, segmentation overlays, four-class scores and a publication explorer.
 
-> **Release status:** Research documentation prepared; the new demo is not yet deployed. Real inference requires verified model checkpoints and a connected private inference service. No live-demo link is claimed here.
+> **Release status:** Documented Python reference modules available; the new demo is not yet deployed. Real inference requires verified model checkpoints and a connected private inference service. No live-demo link is claimed here.
+
+## Explore the Python implementation
+
+These are **new reference implementations reconstructed from the supplied notebooks and thesis**, not recovered original training code. They make the methods inspectable without exposing the complete application, model weights or private download links.
+
+| Module | What it implements |
+|---|---|
+| [`preprocessing.py`](neurovista/preprocessing.py) | RGB conversion, resizing, normalization and binary-mask preparation |
+| [`unet.py`](neurovista/unet.py) | Configurable reference U-Net and soft Dice loss |
+| [`xception.py`](neurovista/xception.py) | Xception backbone and four-class classification head |
+| [`metrics.py`](neurovista/metrics.py) | Dice, IoU, confusion matrix, precision, recall and F1 |
+| [`experiments.py`](neurovista/experiments.py) | All 21 thesis classification conditions and class weighting |
+| [`lora.py`](neurovista/lora.py) | Adapter provenance checks, file hashing and augmentation deficit planning |
+| [`inference.py`](neurovista/inference.py) | Local inference with caller-supplied models and verified class order |
+
+```sh
+python -m pip install -r requirements.txt
+python -m examples.inspect_plan
+python -m unittest discover -s tests -v
+```
+
+The plan and tests run without TensorFlow or model downloads. Model construction requires TensorFlow. Read the [code guide](docs/code-guide.md) and [source-to-code decisions](docs/source-to-code.md) before using a checkpoint. LoRA training is not falsely represented as reconstructed: essential adapter settings are absent.
 
 ## Published evidence
 
@@ -40,11 +62,11 @@ The supplied inference code runs the two branches independently. It does **not**
 
 ## A deliberate public release
 
-This repository contains the research story, original vector artwork, citation metadata, documented results and release boundaries. Training notebooks, application internals, model weights and direct model-download links remain outside this public repository.
+This repository contains documented Python reference modules, the research story, original vector artwork, citation metadata and reported results. Training notebooks, application internals, model weights and direct model-download links remain outside this public repository.
 
 | Included here | Kept private |
 | :--- | :--- |
-| Publication and complete author credit | Original notebooks |
+| Documented Python reference modules | Original notebooks |
 | Methodology and reported metrics | Model checkpoints and download pointers |
 | Reproducibility and evidence notes | Backend and deployment implementation |
 | Citation and access policy | Secrets and access keys |
@@ -56,14 +78,10 @@ The implementation package adds bounded image validation, a server-side proxy, a
 **Deep Learning for Brain Tumor Detection: U-Net Segmentation and Xception Classification with LoRA-Driven Synthetic Data Augmentation**  
 2025 IEEE International Conference on Artificial Intelligence in Engineering and Technology (**IICAIET**)
 
-1. Md. Muhaimenul Haque Prottoy — Jashore University of Science and Technology
-2. **Rifat Bin Reza — Department of Electrical and Electronic Engineering, BRAC University**
-3. Shahriar Islam — Islamic University of Technology
-4. Md. Mahfujul Haque — BRAC University
-5. Nafiz Ahmed Rhythm — BRAC University
+**Rifat Bin Reza** · Electrical and Electronic Engineering, BRAC University  
+This repository presents my research portfolio and a documented reconstruction of the MRI analysis workflow. The complete publication attribution is preserved in the citation files.
 
-**DOI:** [10.1109/IICAIET67254.2025.11264978](https://doi.org/10.1109/IICAIET67254.2025.11264978)  
-**My role in the author list:** second author. The publication is collaborative work; the NeuroVista MRI identity is my personal presentation of it.
+**DOI:** [10.1109/IICAIET67254.2025.11264978](https://doi.org/10.1109/IICAIET67254.2025.11264978)
 
 Use [CITATION.cff](CITATION.cff) or [BibTeX](citation.bib) to cite the paper. For research inquiries, reach me through [my GitHub profile](https://github.com/rifat-binreza) or explore [my Google Scholar profile](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en).
 

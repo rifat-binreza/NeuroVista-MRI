@@ -1,0 +1,3 @@
+numpy>=1.26,<3
+Pillow>=10.4,<12
+# Model builders additionally require TensorFlow; see docs/code-guide.md.
