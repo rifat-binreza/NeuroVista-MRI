@@ -61,8 +61,6 @@ flowchart TD
 
 The supplied inference code runs the two branches independently. It does **not** pass the segmentation mask into Xception. LoRA augmentation belongs to the paper’s training experiments; it is not a live generation feature in this interface.
 
-The deployed checkpoints were loaded and tested through the live API with a synthetic fixture on 8 October 2026. The request returned four finite class scores and a PNG heatmap; this checks execution, not diagnostic accuracy. Segmentation produces three sigmoid channels. The app preserves the supplied notebook’s OpenCV JET visualization rather than claiming a validated binary boundary or assigning tumor labels to those channels. Class output order is Glioma, Meningioma, No Tumor, Pituitary, matching the [original deployed app source](https://huggingface.co/spaces/prottoymmh/Brain_Tumor_MRI_Detection/blob/main/app.py). The supplied notebook swapped the last two labels; that mapping error was corrected. Both checkpoint SHA-256 hashes match the original app’s Hugging Face model files. Independent training-label metadata remains unavailable.
-
 ## A deliberate public release
 
 This repository contains documented Python reference modules, the research story, original vector artwork, citation metadata and reported results. Training notebooks, application internals, model weights and direct model-download links remain outside this public repository.
