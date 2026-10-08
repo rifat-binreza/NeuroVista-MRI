@@ -1,43 +1,34 @@
 <p align="center"><img src="assets/banner.svg" width="100%" alt="NeuroVista MRI — Rifat Bin Reza — Segmentation, Classification, Augmentation" /></p>
-<p align="center"><a href="https://doi.org/10.1109/IICAIET67254.2025.11264978"><img src="https://img.shields.io/badge/IEEE-IICAIET_2025-00b9a8?style=for-the-badge" alt="IEEE IICAIET 2025"></a> <img src="https://img.shields.io/badge/RELEASE-RESEARCH_SHOWCASE-5964ec?style=for-the-badge" alt="Research showcase"></p>
+<p align="center">
+<a href="https://doi.org/10.1109/IICAIET67254.2025.11264978"><img src="https://img.shields.io/badge/IEEE-IICAIET_2025-00b9a8?style=for-the-badge" alt="IEEE IICAIET 2025"></a>
+<a href="https://neuro-vista-mri-private.vercel.app"><img src="https://img.shields.io/badge/EXPLORE-LIVE_DEMO-5964ec?style=for-the-badge" alt="Live research demo"></a>
+</p>
 
 <h1 align="center">NeuroVista MRI</h1>
-<p align="center"><b>Localize the tumor. Classify the image. Study the imbalance.</b><br>A personal research showcase by <a href="https://github.com/rifat-binreza">Rifat Bin Reza</a>, co-author of published IEEE IICAIET 2025 research.</p>
+<p align="center"><b>Brain MRI analysis. From spatial detail to class-level insight.</b><br>A research portfolio by <a href="https://github.com/rifat-binreza">Rifat Bin Reza</a><br>Electrical and Electronic Engineering · BRAC University</p>
 
-<p align="center"><a href="#published-evidence">Results</a> · <a href="docs/methodology.md">Methodology</a> · <a href="docs/reproducibility.md">Reproducibility</a> · <a href="#publication--credit">Publication</a> · <a href="docs/access-and-rights.md">Access & rights</a></p>
+<p align="center"><a href="https://neuro-vista-mri-private.vercel.app">Launch demo</a> · <a href="#research-results">Research results</a> · <a href="docs/methodology.md">Methodology</a> · <a href="#publication">Publication</a> · <a href="docs/code-guide.md">Code guide</a></p>
 
-## The research
+## Overview
 
-Brain MRI analysis brings together two questions: **where is the predicted tumor region, and which class does the image resemble?** Our published work studies U-Net segmentation and Xception classification, with LoRA-driven synthetic augmentation to address class imbalance.
+NeuroVista MRI brings together **U-Net segmentation**, **Xception classification** and the study of **LoRA-driven synthetic data augmentation** for brain MRI analysis. This repository presents my research portfolio around published IEEE IICAIET 2025 work, with an interactive research application and documented Python reference modules.
 
-NeuroVista MRI is my personal research portfolio for brain MRI analysis. The accompanying interface is designed around an MRI workspace, segmentation overlays, four-class scores and a publication explorer.
+The project explores two complementary tasks: localizing image regions through segmentation and producing four-class scores for **Glioma, Meningioma, No Tumor and Pituitary**. The augmentation experiments investigate recovery of classification performance when individual classes are underrepresented.
 
-> **Live research demo:** [Open NeuroVista MRI](https://neuro-vista-mri-private.vercel.app) — deployed on Vercel under Rifat1 with the supplied trained checkpoints. Upload a de-identified PNG/JPEG under 2 MB, confirm permission, then select **Run research analysis**. No separate demo key is required; sign in to Vercel if prompted. First use may take longer while models load.
+## Explore the application
 
-## Explore the Python implementation
+**[Open NeuroVista MRI →](https://neuro-vista-mri-private.vercel.app)**
 
-These are **new reference implementations reconstructed from the supplied notebooks and thesis**, not recovered original training code. They make the methods inspectable without exposing the complete application, model weights or private download links.
+Upload a de-identified grayscale brain MRI slice as PNG or JPEG under **2 MB**, confirm permission and select **Run research analysis**. The workspace provides:
 
-| Module | What it implements |
-|---|---|
-| [`preprocessing.py`](neurovista/preprocessing.py) | RGB conversion, resizing, normalization and binary-mask preparation |
-| [`unet.py`](neurovista/unet.py) | Configurable reference U-Net and soft Dice loss |
-| [`xception.py`](neurovista/xception.py) | Xception backbone and four-class classification head |
-| [`metrics.py`](neurovista/metrics.py) | Dice, IoU, confusion matrix, precision, recall and F1 |
-| [`experiments.py`](neurovista/experiments.py) | All 21 thesis classification conditions and class weighting |
-| [`lora.py`](neurovista/lora.py) | Adapter provenance checks, file hashing and augmentation deficit planning |
-| [`inference.py`](neurovista/inference.py) | Local inference with caller-supplied models and verified class order |
-| [`hf_compatibility.py`](neurovista/hf_compatibility.py) | Gradio-compatible JPEG/PNG preprocessing and corrected reference label mapping |
+- An MRI preview and adjustable segmentation heatmap.
+- Four-class research scores, with ambiguous results withheld.
+- Basic input checks and clear unsupported-input messages.
+- A downloadable research result and publication explorer.
 
-```sh
-python -m pip install -r requirements.txt
-python -m examples.inspect_plan
-python -m unittest discover -s tests -v
-```
+The first analysis may take longer while the models load. Sign in to Vercel if prompted.
 
-The plan and tests run without TensorFlow or model downloads. Model construction requires TensorFlow. Read the [code guide](docs/code-guide.md) and [source-to-code decisions](docs/source-to-code.md) before using a checkpoint. LoRA training is not falsely represented as reconstructed: essential adapter settings are absent.
-
-## Published evidence
+## Research results
 
 | Experiment | Paper-reported result |
 | :--- | ---: |
@@ -47,65 +38,56 @@ The plan and tests run without TensorFlow or model downloads. Model construction
 | Glioma classification — reduced dataset | **92.88%** |
 | Glioma classification — LoRA-augmented dataset | **95.53%** |
 
-The abstract reports average improvements over reduced datasets of **2.55% accuracy, 2.38% precision, 2.37% recall and 2.51% F1-score**. Values preserve the abstract’s wording; they are not newly reproduced benchmarks. See [machine-readable results](docs/paper-results.csv).
+The paper abstract reports average improvements over reduced datasets of **2.55% accuracy, 2.38% precision, 2.37% recall and 2.51% F1-score**. These are publication results, not newly reproduced deployment benchmarks. See [reported results](docs/paper-results.csv) and [methodology](docs/methodology.md).
 
-## How the supplied demo operates
+## Analysis pipeline
 
 ```mermaid
 flowchart TD
-    A["MRI image"] --> B["Resize: 256 × 256"]
-    A --> C["Resize: 299 × 299"]
-    B --> D["U-Net → three-channel heatmap"]
-    C --> E["Xception → four class scores"]
+    A["Brain MRI slice"] --> B["256 × 256 input"]
+    A --> C["299 × 299 input"]
+    B --> D["U-Net spatial heatmap"]
+    C --> E["Xception class scores"]
 ```
 
-The supplied inference code runs the two branches independently. It does **not** pass the segmentation mask into Xception. LoRA augmentation belongs to the paper’s training experiments; it is not a live generation feature in this interface.
+The two inference branches process the image independently. LoRA augmentation is part of the training experiments.
 
-## A deliberate public release
+## Python reference code
 
-This repository contains documented Python reference modules, the research story, original vector artwork, citation metadata and reported results. Training notebooks, application internals, model weights and direct model-download links remain outside this public repository.
+The public modules document the methods and selected inference behavior. They were reconstructed from the supplied research materials; they are not a recovered copy of the complete original training implementation.
 
-| Included here | Kept private |
+| Component | Purpose |
 | :--- | :--- |
-| Documented Python reference modules | Original notebooks |
-| Methodology and reported metrics | Model checkpoints and download pointers |
-| Reproducibility and evidence notes | Backend and deployment implementation |
-| Citation and access policy | Secrets and access keys |
+| [Preprocessing](neurovista/preprocessing.py) | Image preparation and binary-annotation handling |
+| [U-Net](neurovista/unet.py) | Configurable reference architecture and soft Dice loss |
+| [Xception](neurovista/xception.py) | Backbone and four-class classification head |
+| [Metrics](neurovista/metrics.py) | Dice, IoU, precision, recall and F1 |
+| [Experiments](neurovista/experiments.py) | Classification conditions and class weighting |
+| [Augmentation utilities](neurovista/lora.py) | Adapter provenance and augmentation planning |
+| [Inference](neurovista/inference.py) | Local classification with trusted caller-supplied models |
+| [Input adapter](neurovista/hf_compatibility.py) | Consistent JPEG/PNG conversion and verified class mapping |
 
-The implementation package adds bounded image validation, a private Python inference endpoint, checkpoint integrity checks, request isolation and an explicit unavailable state. These engineering checks do not constitute clinical validation or reproduction of the paper.
+```sh
+python -m pip install -r requirements.txt
+python -m examples.inspect_plan
+python -m unittest discover -s tests -v
+```
 
-## Publication & credit
+The reference tests run without TensorFlow or model downloads. Model construction requires TensorFlow. See the [code guide](docs/code-guide.md), [reproducibility notes](docs/reproducibility.md) and [inference implementation notes](docs/inference-notes.md) for technical details.
+
+## Publication
 
 **Deep Learning for Brain Tumor Detection: U-Net Segmentation and Xception Classification with LoRA-Driven Synthetic Data Augmentation**  
 2025 IEEE International Conference on Artificial Intelligence in Engineering and Technology (**IICAIET**)
 
-**Rifat Bin Reza** · Electrical and Electronic Engineering, BRAC University  
-This repository presents my research portfolio and a documented reconstruction of the MRI analysis workflow. The complete publication attribution is preserved in the citation files.
-
 **DOI:** [10.1109/IICAIET67254.2025.11264978](https://doi.org/10.1109/IICAIET67254.2025.11264978)
 
-Use [CITATION.cff](CITATION.cff) or [BibTeX](citation.bib) to cite the paper. For research inquiries, reach me through [my GitHub profile](https://github.com/rifat-binreza) or explore [my Google Scholar profile](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en).
+Complete publication attribution is available in [CITATION.cff](CITATION.cff) and [BibTeX](citation.bib).
 
-## Matching the original Hugging Face workflow
+**Connect:** [Rifat Bin Reza on GitHub](https://github.com/rifat-binreza) · [Google Scholar](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en)
 
-The documented [public compatibility adapter](neurovista/hf_compatibility.py) and [regression tests](tests/test_hf_compatibility.py) are included. Use `prepare_reference_input(path)` with your trusted model, or `classify_reference(path, model)` for the reference checkpoint’s verified output order. The existing generic `inference.py` remains available for other caller-verified models.
+## Research use and access
 
-The shared input decoder matches Gradio 5.37.0’s `Image(type="filepath", image_mode="RGB")` behavior. RGB files pass through; other modes are converted to RGB. Grayscale JPEG conversion triggers a second JPEG encode in the original app, so the compatibility path reproduces that step in memory. PNG conversion is lossless. This applies to all supported uploads, with no filename-specific rules or score adjustments.
+NeuroVista MRI is a research demonstration. Scores are not calibrated disease probabilities, and the heatmap is not a validated tumor boundary. Basic input checks cannot verify every image's suitability. Do not submit identifiable patient information or use the application for clinical decisions.
 
-Independent comparisons against the actual Gradio component produced identical model-input tensors across eight cases covering grayscale/RGB JPEG, PNG, alpha and EXIF orientation. The supplied comparison JPEG produced 99.7326% for the No Tumor class when decoded directly and 99.8394% after the reference conversion, explaining the displayed 99.73% versus 99.84% difference. Both checkpoint hashes match the original. Matching software behavior does not establish clinical correctness.
-
-## Input screening and uncertain results
-
-The demo rejects obvious color images, blank/low-contrast images, tiny inputs and extreme aspect ratios before running the models. You must confirm that the input is an original, de-identified brain MRI slice. Rejected inputs show no class scores or heatmaps.
-
-Ambiguous classifier outputs are withheld when the top score is below 0.70 or the top-two margin is below 0.20. These are **uncalibrated display-policy thresholds**, not validated clinical confidence or an out-of-distribution detector. High scores do not prove that an image is an MRI. Grayscale photos, CT images and diagrams may pass the basic checks; do not convert photos to grayscale to bypass them.
-
-Deployment regression checks confirmed that the supplied portrait example is rejected (HTTP 422, no predictions) and an MRI example from the supplied notebook reaches inference. Eight policy/API tests passed. These limited checks do not establish diagnostic accuracy or MRI-detection sensitivity/specificity.
-
-## Responsible interpretation
-
-This is a research demonstration, not a diagnostic system. Model scores are not calibrated probabilities of disease. Clinical use, external generalization and regulatory readiness are not established by this release. Do not submit identifiable patient information.
-
-## Rights
-
-No open-source license is granted for the unpublished implementation or models. See [RIGHTS.md](RIGHTS.md). The IEEE publication and third-party materials retain their respective rights; the full paper is not redistributed here.
+The public repository includes reference modules, documentation and citation metadata. Model weights, private download pointers and deployment internals remain private. See [access policy](docs/access-and-rights.md) and [RIGHTS.md](RIGHTS.md) for reuse terms.
