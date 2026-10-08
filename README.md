@@ -87,6 +87,12 @@ This repository presents my research portfolio and a documented reconstruction o
 
 Use [CITATION.cff](CITATION.cff) or [BibTeX](citation.bib) to cite the paper. For research inquiries, reach me through [my GitHub profile](https://github.com/rifat-binreza) or explore [my Google Scholar profile](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en).
 
+## Matching the original Hugging Face workflow
+
+The shared input decoder matches Gradio 5.37.0’s `Image(type="filepath", image_mode="RGB")` behavior. RGB files pass through; other modes are converted to RGB. Grayscale JPEG conversion triggers a second JPEG encode in the original app, so the compatibility path reproduces that step in memory. PNG conversion is lossless. This applies to all supported uploads, with no filename-specific rules or score adjustments.
+
+Independent comparisons against the actual Gradio component produced identical model-input tensors across eight cases covering grayscale/RGB JPEG, PNG, alpha and EXIF orientation. The supplied comparison JPEG produced 99.7326% for the No Tumor class when decoded directly and 99.8394% after the reference conversion, explaining the displayed 99.73% versus 99.84% difference. Both checkpoint hashes match the original. Matching software behavior does not establish clinical correctness.
+
 ## Input screening and uncertain results
 
 The demo rejects obvious color images, blank/low-contrast images, tiny inputs and extreme aspect ratios before running the models. You must confirm that the input is an original, de-identified brain MRI slice. Rejected inputs show no class scores or heatmaps.
