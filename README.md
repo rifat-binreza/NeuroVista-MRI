@@ -87,6 +87,14 @@ This repository presents my research portfolio and a documented reconstruction o
 
 Use [CITATION.cff](CITATION.cff) or [BibTeX](citation.bib) to cite the paper. For research inquiries, reach me through [my GitHub profile](https://github.com/rifat-binreza) or explore [my Google Scholar profile](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en).
 
+## Input screening and uncertain results
+
+The demo rejects obvious color images, blank/low-contrast images, tiny inputs and extreme aspect ratios before running the models. You must confirm that the input is an original, de-identified brain MRI slice. Rejected inputs show no class scores or heatmaps.
+
+Ambiguous classifier outputs are withheld when the top score is below 0.70 or the top-two margin is below 0.20. These are **uncalibrated display-policy thresholds**, not validated clinical confidence or an out-of-distribution detector. High scores do not prove that an image is an MRI. Grayscale photos, CT images and diagrams may pass the basic checks; do not convert photos to grayscale to bypass them.
+
+Deployment regression checks confirmed that the supplied portrait example is rejected (HTTP 422, no predictions) and an MRI example from the supplied notebook reaches inference. Eight policy/API tests passed. These limited checks do not establish diagnostic accuracy or MRI-detection sensitivity/specificity.
+
 ## Responsible interpretation
 
 This is a research demonstration, not a diagnostic system. Model scores are not calibrated probabilities of disease. Clinical use, external generalization and regulatory readiness are not established by this release. Do not submit identifiable patient information.
