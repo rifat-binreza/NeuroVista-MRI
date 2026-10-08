@@ -12,7 +12,7 @@ Brain MRI analysis brings together two questions: **where is the predicted tumor
 
 NeuroVista MRI is my personal research portfolio for brain MRI analysis. The accompanying interface is designed around an MRI workspace, segmentation overlays, four-class scores and a publication explorer.
 
-> **Deployment:** [Open NeuroVista MRI](https://neuro-vista-mri-private.vercel.app) — deployed on Vercel under Rifat1. Vercel sign-in is currently required. Local image preview and the publication explorer are available; real inference awaits verified checkpoints and a connected private model service.
+> **Live research demo:** [Open NeuroVista MRI](https://neuro-vista-mri-private.vercel.app) — deployed on Vercel under Rifat1 with the supplied trained checkpoints. Upload a de-identified PNG/JPEG under 2 MB, confirm permission, then select **Run research analysis**. No separate demo key is required; sign in to Vercel if prompted. First use may take longer while models load.
 
 ## Explore the Python implementation
 
@@ -54,11 +54,13 @@ The abstract reports average improvements over reduced datasets of **2.55% accur
 flowchart TD
     A["MRI image"] --> B["Resize: 256 × 256"]
     A --> C["Resize: 299 × 299"]
-    B --> D["U-Net → spatial mask"]
+    B --> D["U-Net → three-channel heatmap"]
     C --> E["Xception → four class scores"]
 ```
 
 The supplied inference code runs the two branches independently. It does **not** pass the segmentation mask into Xception. LoRA augmentation belongs to the paper’s training experiments; it is not a live generation feature in this interface.
+
+The deployed checkpoints were loaded and tested through the live API with a synthetic fixture on 8 October 2026. The request returned four finite class scores and a PNG heatmap; this checks execution, not diagnostic accuracy. Segmentation produces three sigmoid channels. The app preserves the supplied notebook’s OpenCV JET visualization rather than claiming a validated binary boundary or assigning tumor labels to those channels. Class order follows the supplied notebook; independent training-label verification remains outstanding.
 
 ## A deliberate public release
 
@@ -71,7 +73,7 @@ This repository contains documented Python reference modules, the research story
 | Reproducibility and evidence notes | Backend and deployment implementation |
 | Citation and access policy | Secrets and access keys |
 
-The implementation package adds bounded image validation, a server-side proxy, access-controlled inference, request isolation and an explicit unavailable state. These engineering checks do not constitute clinical validation or reproduction of the paper.
+The implementation package adds bounded image validation, a private Python inference endpoint, checkpoint integrity checks, request isolation and an explicit unavailable state. These engineering checks do not constitute clinical validation or reproduction of the paper.
 
 ## Publication & credit
 
