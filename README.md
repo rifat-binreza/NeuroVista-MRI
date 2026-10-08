@@ -12,7 +12,7 @@ Brain MRI analysis brings together two questions: **where is the predicted tumor
 
 NeuroVista MRI is my personal research portfolio for brain MRI analysis. The accompanying interface is designed around an MRI workspace, segmentation overlays, four-class scores and a publication explorer.
 
-> **Release status:** Documented Python reference modules available; the new demo is not yet deployed. Real inference requires verified model checkpoints and a connected private inference service. No live-demo link is claimed here.
+> **Deployment:** [Open NeuroVista MRI](https://neuro-vista-mri-private.vercel.app) — deployed on Vercel under Rifat1. Vercel sign-in is currently required. Local image preview and the publication explorer are available; real inference awaits verified checkpoints and a connected private model service.
 
 ## Explore the Python implementation
 
