@@ -27,6 +27,7 @@ These are **new reference implementations reconstructed from the supplied notebo
 | [`experiments.py`](neurovista/experiments.py) | All 21 thesis classification conditions and class weighting |
 | [`lora.py`](neurovista/lora.py) | Adapter provenance checks, file hashing and augmentation deficit planning |
 | [`inference.py`](neurovista/inference.py) | Local inference with caller-supplied models and verified class order |
+| [`hf_compatibility.py`](neurovista/hf_compatibility.py) | Gradio-compatible JPEG/PNG preprocessing and corrected reference label mapping |
 
 ```sh
 python -m pip install -r requirements.txt
@@ -88,6 +89,8 @@ This repository presents my research portfolio and a documented reconstruction o
 Use [CITATION.cff](CITATION.cff) or [BibTeX](citation.bib) to cite the paper. For research inquiries, reach me through [my GitHub profile](https://github.com/rifat-binreza) or explore [my Google Scholar profile](https://scholar.google.com/citations?user=U7HsBd4AAAAJ&hl=en).
 
 ## Matching the original Hugging Face workflow
+
+The documented [public compatibility adapter](neurovista/hf_compatibility.py) and [regression tests](tests/test_hf_compatibility.py) are included. Use `prepare_reference_input(path)` with your trusted model, or `classify_reference(path, model)` for the reference checkpoint’s verified output order. The existing generic `inference.py` remains available for other caller-verified models.
 
 The shared input decoder matches Gradio 5.37.0’s `Image(type="filepath", image_mode="RGB")` behavior. RGB files pass through; other modes are converted to RGB. Grayscale JPEG conversion triggers a second JPEG encode in the original app, so the compatibility path reproduces that step in memory. PNG conversion is lossless. This applies to all supported uploads, with no filename-specific rules or score adjustments.
 
